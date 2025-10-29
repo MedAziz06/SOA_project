@@ -58,7 +58,7 @@
                     @if (livre.auteur) {
                       <span class="badge bg-info text-dark">
                         <i class="bi bi-person-fill me-1"></i>
-                        {{ livre.auteur.prenomAuteur }} {{ livre.auteur.nomAuteur }}
+                        {{ livre.auteur?.prenomAuteur }} {{ livre.auteur?.nomAuteur }}
                       </span>
                     } @else {
                       <span class="badge bg-warning">PAS D'AUTEUR</span>

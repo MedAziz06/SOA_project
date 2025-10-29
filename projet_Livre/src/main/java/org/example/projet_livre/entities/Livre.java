@@ -12,22 +12,24 @@ public class Livre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLivre;
+    
     private String nomLivre;
     private Double prixLivre;
     private Date dateCreation;
-
+    
     @ManyToOne
     private Auteur auteur;
 
+    // Constructeur par défaut
     public Livre() {
-        super();
     }
 
-    public Livre(String nomLivre, Double prixLivre, Date dateCreation) {
-        super();
+    // Constructeur avec paramètres
+    public Livre(String nomLivre, Double prixLivre, Date dateCreation, Auteur auteur) {
         this.nomLivre = nomLivre;
         this.prixLivre = prixLivre;
         this.dateCreation = dateCreation;
+        this.auteur = auteur;
     }
 
     // Getters et Setters
@@ -73,7 +75,9 @@ public class Livre {
 
     @Override
     public String toString() {
-        return "Livre [idLivre=" + idLivre + ", nomLivre=" + nomLivre +
-                ", prixLivre=" + prixLivre + ", dateCreation=" + dateCreation + "]";
+        return "Livre [idLivre=" + idLivre + 
+               ", nomLivre=" + nomLivre + 
+               ", prixLivre=" + prixLivre + 
+               ", dateCreation=" + dateCreation + "]";
     }
 }

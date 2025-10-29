@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class LivreService {
   apiURL: string = environment.apiURL;
-  apiURLAut: string = 'http://localhost:8080/livres/aut';
+  apiURLAut: string = 'http://localhost:8090/livres/aut';
 
   constructor(private http: HttpClient) { }
 
@@ -66,17 +66,17 @@ export class LivreService {
     return this.http.get<Livre[]>(url);
   }
   ajouterAuteur(auteur: Auteur): Observable<Auteur> {
-    const url = 'http://localhost:8080/livres/api/aut';
+    const url = 'http://localhost:8090/livres/api/aut';
     return this.http.post<Auteur>(url, auteur, httpOptions);
   }
 
   updateAuteur(auteur: Auteur): Observable<Auteur> {
-    const url = 'http://localhost:8080/livres/api/aut';
+    const url = 'http://localhost:8090/livres/api/aut';
     return this.http.put<Auteur>(url, auteur, httpOptions);
   }
 
   supprimerAuteur(id: number): Observable<void> {
-    const url = `http://localhost:8080/livres/api/aut/${id}`;
+    const url = `http://localhost:8090/livres/api/aut/${id}`;
     return this.http.delete<void>(url, httpOptions);
   }
 }
