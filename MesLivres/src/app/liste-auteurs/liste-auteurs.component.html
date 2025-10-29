@@ -1,0 +1,104 @@
+<div class="container">
+  <!-- Section Formulaire -->
+  <div class="row mb-4">
+    <div class="col-md-5">
+      <div class="card shadow-lg border-0">
+        <div class="card-header text-white py-3"
+             [class.bg-success]="ajout"
+             [class.bg-warning]="!ajout">
+          <h5 class="m-0">
+            <i [class]="ajout ? 'bi bi-plus-circle-fill me-2' : 'bi bi-pencil-square me-2'"></i>
+            {{ ajout ? 'Ajouter un Auteur' : 'Modifier l\'Auteur' }}
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <!-- Composant enfant UpdateAuteurComponent -->
+          <app-update-auteur
+            [auteur]="updatedAut"
+            [ajout]="ajout"
+            (auteurUpdated)="auteurUpdated($event)">
+          </app-update-auteur>
+
+          <!-- Bouton Annuler en mode modification -->
+          @if (!ajout) {
+            <button (click)="resetForm()"
+                    class="btn btn-secondary w-100 mt-2">
+              <i class="bi bi-x-circle me-2"></i>Annuler
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Liste des Auteurs -->
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="m-0">
+          <i class="bi bi-people-fill me-2"></i>Liste des Auteurs
+        </h4>
+        <span class="badge bg-light text-dark fs-6">
+          {{ auteurs?.length || 0 }} auteur(s)
+        </span>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      @if (auteurs && auteurs.length > 0) {
+        <div class="table-responsive">
+          <table class="table table-hover table-striped mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th style="width: 5%">#</th>
+                <th style="width: 10%">ID</th>
+                <th style="width: 20%">Nom</th>
+                <th style="width: 20%">Prénom</th>
+                <th style="width: 20%">Nationalité</th>
+                <th style="width: 25%" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (aut of auteurs; track aut.idAuteur; let index = $index) {
+                <tr [class.table-warning]="updatedAut.idAuteur === aut.idAuteur">
+                  <td class="fw-bold">{{ index + 1 }}</td>
+                  <td>
+                    <span class="badge bg-secondary">{{ aut.idAuteur }}</span>
+                  </td>
+                  <td>
+                    <i class="bi bi-person text-primary me-2"></i>
+                    {{ aut.nomAuteur }}
+                  </td>
+                  <td>{{ aut.prenomAuteur }}</td>
+                  <td>
+                    <span class="badge bg-info text-dark">
+                      <i class="bi bi-flag me-1"></i>{{ aut.nationalite }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button (click)="updateAut(aut)"
+                            class="btn btn-warning btn-sm me-2"
+                            [disabled]="!ajout && updatedAut.idAuteur === aut.idAuteur"
+                            title="Modifier">
+                      <i class="bi bi-pencil-square"></i> Éditer
+                    </button>
+                    <button (click)="supprimerAuteur(aut)"
+                            class="btn btn-danger btn-sm"
+                            title="Supprimer">
+                      <i class="bi bi-trash"></i> Supprimer
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="text-center py-5">
+          <i class="bi bi-inbox display-1 text-muted"></i>
+          <h3 class="mt-3 text-muted">Aucun auteur trouvé !</h3>
+          <p class="text-muted">Ajoutez votre premier auteur ci-dessus.</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

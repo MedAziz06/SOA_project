@@ -1,0 +1,84 @@
+<div class="container">
+  <!-- Sélecteur d'auteur -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="m-0"><i class="bi bi-filter me-2"></i>Filtrer par Auteur</h5>
+        </div>
+        <div class="card-body">
+          <label for="idAut" class="form-label fw-bold">Sélectionnez un auteur</label>
+          <select class="form-select form-select-lg"
+                  id="idAut"
+                  name="idAut"
+                  [(ngModel)]="IdAuteur"
+                  (change)="onChange()">
+            <option value="" disabled selected>-- Choisissez un auteur --</option>
+            @for(aut of auteurs; track aut.idAuteur) {
+              <option [value]="aut.idAuteur">
+                {{ aut.prenomAuteur }} {{ aut.nomAuteur }} ({{ aut.nationalite }})
+              </option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Résultats de la recherche -->
+  @if (livres && livres.length > 0) {
+    <div class="card shadow-lg border-0">
+      <div class="card-header bg-success text-white py-3">
+        <h5 class="m-0">
+          <i class="bi bi-book-fill me-2"></i>Résultats de la recherche
+          <span class="badge bg-light text-dark ms-2">{{ livres.length }}</span>
+        </h5>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Nom du Livre</th>
+                <th>Prix</th>
+                <th>Date de Création</th>
+                <th>Auteur</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (livre of livres; track livre.idLivre; let index = $index) {
+                <tr>
+                  <td class="fw-bold">{{ index + 1 }}</td>
+                  <td><span class="badge bg-secondary">{{ livre.idLivre }}</span></td>
+                  <td>
+                    <i class="bi bi-book text-primary me-2"></i>
+                    {{ livre.nomLivre }}
+                  </td>
+                  <td><strong class="text-success">{{ livre.prixLivre }}€</strong></td>
+                  <td>{{ livre.dateCreation | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    @if (livre.auteur) {
+                      <span class="badge bg-info text-dark">
+                        <i class="bi bi-person-fill me-1"></i>
+                        {{ livre.auteur.prenomAuteur }} {{ livre.auteur.nomAuteur }}
+                      </span>
+                    } @else {
+                      <span class="badge bg-warning">PAS D'AUTEUR</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  } @else if (IdAuteur) {
+    <div class="alert alert-warning" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      Aucun livre trouvé pour cet auteur.
+    </div>
+  }
+</div>

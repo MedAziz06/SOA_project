@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-success text-white py-3">
+          <h4 class="m-0">
+            <i class="bi bi-plus-circle-fill me-2"></i>Ajouter un Nouveau Livre
+          </h4>
+        </div>
+        <div class="card-body p-4">
+          <!-- Message de succès -->
+          @if (message) {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <i class="bi bi-check-circle-fill me-2"></i>{{ message }}
+            </div>
+          }
+
+          <!-- Message d'erreur -->
+          @if (messageError) {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ messageError }}
+            </div>
+          }
+
+          <form #livreForm="ngForm">
+            <div class="row">
+              <!-- ID Livre (caché) -->
+              <div class="col-md-6 mb-3" hidden>
+                <label for="idLivre" class="form-label fw-bold">ID Livre</label>
+                <input type="number"
+                       [(ngModel)]="newLivre.idLivre"
+                       name="idLivre"
+                       id="idLivre"
+                       class="form-control"
+                       readonly>
+              </div>
+
+              <!-- Nom du Livre -->
+              <div class="col-md-12 mb-3">
+                <label for="nomLivre" class="form-label fw-bold">
+                  <i class="bi bi-book text-primary"></i> Nom du Livre *
+                </label>
+                <input type="text"
+                       [(ngModel)]="newLivre.nomLivre"
+                       name="nomLivre"
+                       id="nomLivre"
+                       class="form-control form-control-lg"
+                       placeholder="Ex: Les Misérables"
+                       required>
+              </div>
+
+              <!-- Prix du Livre -->
+              <div class="col-md-6 mb-3">
+                <label for="prixLivre" class="form-label fw-bold">
+                  <i class="bi bi-currency-euro text-success"></i> Prix *
+                </label>
+                <div class="input-group">
+                  <input type="number"
+                         [(ngModel)]="newLivre.prixLivre"
+                         name="prixLivre"
+                         id="prixLivre"
+                         class="form-control"
+                         placeholder="0.00"
+                         step="0.01"
+                         min="0.01"
+                         required>
+                  <span class="input-group-text">€</span>
+                </div>
+                <small class="text-muted">
+                  <i class="bi bi-info-circle"></i> Le prix doit être positif
+                </small>
+              </div>
+
+              <!-- Date de Création -->
+              <div class="col-md-6 mb-3">
+                <label for="dateCreation" class="form-label fw-bold">
+                  <i class="bi bi-calendar-date text-info"></i> Date de Création *
+                </label>
+                <input type="date"
+                       [(ngModel)]="newLivre.dateCreation"
+                       name="dateCreation"
+                       id="dateCreation"
+                       class="form-control"
+                       required>
+              </div>
+
+              <!-- Sélection de l'Auteur -->
+              <div class="col-md-12 mb-3">
+                <label for="idAuteur" class="form-label fw-bold">
+                  <i class="bi bi-person-fill text-warning"></i> Auteur *
+                </label>
+                <select class="form-select form-select-lg"
+                        id="idAuteur"
+                        name="idAuteur"
+                        [(ngModel)]="newIdAuteur"
+                        required>
+                  <option [value]="undefined" selected disabled>
+                    -- Sélectionnez un auteur --
+                  </option>
+                  @for(auteur of auteurs; track auteur.idAuteur) {
+                    <option [value]="auteur.idAuteur">
+                      {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}
+                      ({{ auteur.nationalite }})
+                    </option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit"
+                      (click)="addLivre()"
+                      [disabled]="!livreForm.valid"
+                      class="btn btn-success btn-lg flex-grow-1">
+                <i class="bi bi-save me-2"></i>Enregistrer
+              </button>
+              <button type="button"
+                      routerLink="/livres"
+                      class="btn btn-secondary btn-lg">
+                <i class="bi bi-x-circle me-2"></i>Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

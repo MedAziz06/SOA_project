@@ -1,0 +1,99 @@
+<form>
+  <!-- ID Auteur (caché en mode ajout, readonly en mode modification) -->
+  <div class="mb-3" [hidden]="ajout">
+    <label for="idAuteur" class="form-label fw-bold">
+      <i class="bi bi-hash text-secondary"></i> ID Auteur
+    </label>
+    <input type="number"
+           [(ngModel)]="auteur.idAuteur"
+           name="idAuteur"
+           id="idAuteur"
+           class="form-control bg-light"
+           readonly>
+  </div>
+
+  <!-- Nom de l'Auteur -->
+  <div class="mb-3">
+    <label for="nomAuteur" class="form-label fw-bold">
+      <i class="bi bi-person text-primary"></i> Nom *
+    </label>
+    <input type="text"
+           [(ngModel)]="auteur.nomAuteur"
+           name="nomAuteur"
+           id="nomAuteur"
+           class="form-control"
+           placeholder="Ex: Hugo"
+           required>
+    <small class="form-text text-muted">
+      <i class="bi bi-info-circle"></i> Champ obligatoire
+    </small>
+  </div>
+
+  <!-- Prénom de l'Auteur -->
+  <div class="mb-3">
+    <label for="prenomAuteur" class="form-label fw-bold">
+      <i class="bi bi-person-badge text-success"></i> Prénom *
+    </label>
+    <input type="text"
+           [(ngModel)]="auteur.prenomAuteur"
+           name="prenomAuteur"
+           id="prenomAuteur"
+           class="form-control"
+           placeholder="Ex: Victor"
+           required>
+    <small class="form-text text-muted">
+      <i class="bi bi-info-circle"></i> Champ obligatoire
+    </small>
+  </div>
+
+  <!-- Nationalité -->
+  <div class="mb-3">
+    <label for="nationalite" class="form-label fw-bold">
+      <i class="bi bi-flag text-info"></i> Nationalité
+    </label>
+    <input type="text"
+           [(ngModel)]="auteur.nationalite"
+           name="nationalite"
+           id="nationalite"
+           class="form-control"
+           placeholder="Ex: Français"
+           list="nationalites">
+    <datalist id="nationalites">
+      <option value="Français">
+      <option value="Britannique">
+      <option value="Américain">
+      <option value="Allemand">
+      <option value="Italien">
+      <option value="Espagnol">
+    </datalist>
+  </div>
+
+  <!-- Bouton Submit -->
+  <div class="d-grid gap-2">
+    <button type="submit"
+            [disabled]="!auteur.nomAuteur || !auteur.prenomAuteur"
+            class="btn btn-lg"
+            [class.btn-success]="ajout"
+            [class.btn-warning]="!ajout"
+            [class.text-white]="!ajout"
+            (click)="saveAuteur()">
+      <i [class]="ajout ? 'bi bi-check-circle me-2' : 'bi bi-save me-2'"></i>
+      {{ ajout ? 'Ajouter l\'Auteur' : 'Enregistrer les Modifications' }}
+    </button>
+  </div>
+
+  <!-- Indicateur visuel -->
+  <div class="mt-3 text-center">
+    @if (ajout) {
+      <small class="text-muted">
+        <i class="bi bi-info-circle-fill me-1"></i>
+        Mode : <span class="badge bg-success">AJOUT</span>
+      </small>
+    } @else {
+      <small class="text-muted">
+        <i class="bi bi-pencil-fill me-1"></i>
+        Mode : <span class="badge bg-warning">MODIFICATION</span>
+      </small>
+    }
+  </div>
+</form>

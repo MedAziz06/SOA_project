@@ -1,0 +1,22 @@
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.card {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.form-control:focus {
+  border-color: #f5576c;
+  box-shadow: 0 0 0 0.25rem rgba(245, 87, 108, 0.25);
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+.bg-light {
+  cursor: not-allowed;
+}
