@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <div class="row justify-content-md-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white text-center py-4">
+          <h2 class="m-0"><i class="bi bi-person-plus me-2"></i>Création de compte</h2>
+          <p class="mb-0 mt-2">Inscrivez-vous gratuitement</p>
+        </div>
+        <div class="card-body p-4">
+          <form (ngSubmit)="onRegister()">
+            <div *ngIf="erreur" class="alert alert-danger">{{ erreur }}</div>
+            <div *ngIf="succes" class="alert alert-success">{{ succes }}</div>
+            <div class="mb-3">
+              <label for="username" class="form-label fw-bold">
+                <i class="bi bi-person-circle me-2 text-success"></i>Nom d'utilisateur
+              </label>
+              <input type="text" class="form-control form-control-lg" id="username" [(ngModel)]="user.username" name="username" required placeholder="Choisissez un nom d'utilisateur">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-bold">
+                <i class="bi bi-envelope-fill me-2 text-success"></i>Email
+              </label>
+              <input type="email" class="form-control form-control-lg" id="email" [(ngModel)]="user.email" name="email" required placeholder="Votre email">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label fw-bold">
+                <i class="bi bi-key-fill me-2 text-success"></i>Mot de passe
+              </label>
+              <input type="password" class="form-control form-control-lg" id="password" [(ngModel)]="user.password" name="password" required placeholder="Choisissez un mot de passe sécurisé">
+            </div>
+            <div class="d-grid gap-2 mt-4">
+              <button type="submit" [disabled]="enCours" class="btn btn-success btn-lg">
+                <i class="bi bi-check-circle me-2"></i>Valider
+              </button>
+              <a routerLink="/login" class="btn btn-outline-secondary btn-lg">
+                <i class="bi bi-arrow-left"></i> J'ai déjà un compte
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

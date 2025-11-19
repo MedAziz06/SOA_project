@@ -1,0 +1,16 @@
+.card {
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 1.5px 4.5px rgba(0,0,0,0.15);
+}
+.card-header {
+  border-radius: 1.25rem 1.25rem 0 0;
+}
+.btn-lg {
+  transition: box-shadow 0.15s, background 0.15s;
+}
+.btn-lg:active, .btn-lg:focus {
+  box-shadow: 0 0 0 0.25rem rgba(40,167,69,.25);
+}
+.mb-3 label {
+  font-size: 1.08rem;
+}

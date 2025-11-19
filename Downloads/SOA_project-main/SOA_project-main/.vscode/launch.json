@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.meslivres.usermicroservice.DemoApplication",
+            "projectName": "demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProjetLivreApplication<projet_Livre>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.example.projet_livre.ProjetLivreApplication",
+            "projectName": "projet_Livre",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

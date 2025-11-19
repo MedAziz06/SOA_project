@@ -1,0 +1,57 @@
+# Explication du fonctionnement de JWT dans l'application MESLIVRES
+
+## 1. Qu'est-ce qu'un JWT ?
+Un JWT (JSON Web Token) est un format sécurisé pour transmettre des informations (claims) entre deux parties sous forme d'un objet JSON signé. Il est utilisé pour l'authentification sans session côté serveur : après connexion, le serveur remet un token signé que le client présente pour chaque requête sécurisée.
+
+## 2. Où et comment le JWT est-il généré ?
+Dans l'application MESLIVRES :
+- La génération du token JWT se fait dans le backend, dans la classe `JwtService.java`.
+- Lorsqu'un utilisateur se connecte via `/api/auth/login`, le backend vérifie ses identifiants, puis appelle `generateToken(Authentication)` qui créé le JWT :
+  - On y encode le *username* (dans `sub`) et les rôles (dans le claim `roles`).
+  - Le token est signé avec une clé secrète définie dans `application.properties` (`jwt.secret`).
+  - La durée de validité découle de `jwt.expiration` (ex : 86400000 ms = 24h).
+
+## 3. Où le JWT est-il validé ?
+- Chaque fois que le frontend appelle une API protégée, il transmet le token JWT dans l'en-tête `Authorization: Bearer ...`.
+- Le backend vérifie ce token via le filtre `JWTAuthorizationFilter.java` pour chaque requête :
+  - Extraction du token de l'en-tête.
+  - Validation (signature, non-expiré, non-altéré) via `JwtService#validateToken()`.
+  - Si valide, on restaure l'utilisateur correspondant pour la requête.
+
+## 4. Principaux fichiers/backend impliqués
+- **JwtService.java** : toute la logique de création, signature, parsing/extraction et validation du token.
+- **SecurityConfig.java** : définit les routes ouvertes/fermées, la stratégie d'authentification JWT (stateless), les filtres de sécurité.
+- **JWTAuthorizationFilter.java** : filtre qui intercepte chaque requête HTTP entrante et applique la vérification JWT pour décider de la suite (autoriser/refuser).
+- **application.properties** : Conf identifiants secrets et durée de validité du token.
+
+## 5. Rôle dans la sécurité
+- Empêche tout accès aux routes protégées sans authentification valide (token indispensable).
+- Le token transportant les rôles, il permet aussi la gestion de l'autorisation (admin/user).
+- Le backend fonctionne sans notion de session (stateless), ce qui favorise la scalabilité et la sécurité du système.
+
+## 6. Schéma textuel du flux de connexion et validation JWT
+
+```
+[UTILISATEUR]
+   |
+   | <--- POST /api/auth/login (username, password)    [FRONTEND -> BACKEND]
+   |
+   | ----> Vérification backend
+   | ----> return JWT signé (avec rôle et username)
+   |
+   | <--- (JWT reçu stocké côté navigateur)
+   |
+   | --- Pour chaque requête sécurisée suivante:
+   |
+   | ----> GET /api/...  +  Header: Authorization: Bearer token
+   |
+   | ----> FILTRE back :
+   |        - Extraction JWT
+   |        - Validité / Non-expiré / Signature OK ?
+   |        - Oui => re-crée session pour requête courante
+   |        - Non => 401 Unauthorized
+   |
+[...]
+```
+
+**Résumé** : Avec JWT, le système MESLIVRES protège efficacement l'accès à ses API, tout en gardant une authentification moderne, sûre et compatible avec une architecture REST/SOA.
